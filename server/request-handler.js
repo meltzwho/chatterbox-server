@@ -11,6 +11,8 @@ this file and include it in basic-server.js so that it actually works.
 *Hint* Check out the node module documentation at http://nodejs.org/api/modules.html.
 
 **************************************************************/
+var fs = require('fs');
+
 var defaultCorsHeaders = {
   'access-control-allow-origin': '*',
   'access-control-allow-methods': 'GET, POST, PUT, DELETE, OPTIONS',
@@ -21,6 +23,15 @@ var messages = {
   results: []
 };
 var requestHandler = function(request, response) {
+
+  var data = fs.readFileSync('messages.log').toString();
+  if (data === '') {
+    messages = {
+      'results': []
+    };
+  } else {
+    messages = JSON.parse(data);
+  }
   // Request and Response come from node's http module.
   //
   // They include information about both the incoming request, such as
@@ -36,13 +47,12 @@ var requestHandler = function(request, response) {
   // debugging help, but you should always be careful about leaving stray
   // console.logs in your code.
   console.log('Serving request type ' + request.method + ' for url ' + request.url);
-  //console.log(`Request ${util.inspect(request)}\n`,`Response ${util.inspect(response)}`);
   // The outgoing status.
-  //console.log(util.inspect(request));
   var statusCode = undefined;
   if (request.url === '/classes/messages') {
     switch (request.method) {
-      case 'OPTIONS': case 'GET':
+      case 'OPTIONS':
+      case 'GET':
         {
           statusCode = 200;
           break;
@@ -56,10 +66,11 @@ var requestHandler = function(request, response) {
           }).on('end', () => {
             body = Buffer.concat(body).toString();
             messages.results.push(JSON.parse(body));
+            fs.writeFileSync('messages.log', JSON.stringify(messages));
           })
           break;
         }
-        default:
+      default:
         {
           statusCode = 404;
 
@@ -89,7 +100,7 @@ var requestHandler = function(request, response) {
   //
   // Calling .end "flushes" the response's internal buffer, forcing
   // node to actually send all the data over to the client.
-    response.end(JSON.stringify(messages));
+  response.end(JSON.stringify(messages));
 };
 
 // These headers will allow Cross-Origin Resource Sharing (CORS).

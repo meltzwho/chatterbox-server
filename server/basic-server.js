@@ -1,5 +1,6 @@
 /* Import node's http module: */
 var http = require('http');
+var express = require('express');
 var handleRequest = require('./request-handler.js').requestHandler;
 
 
@@ -27,6 +28,12 @@ var server = http.createServer(handleRequest);
 console.log('Listening on http://' + ip + ':' + port);
 server.listen(port, ip);
 
+var express = require('express'),
+app = express(),
+port = process.env.PORT || 4000;
+
+app.use(express.static(__dirname + '/client'));
+app.listen(port, ip);
 // To start this server, run:
 //
 //   node basic-server.js
