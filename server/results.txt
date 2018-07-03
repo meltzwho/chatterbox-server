@@ -1,0 +1,35 @@
+
+> chatterbox-server@1.1.0 test /home/eric/code/hrnyc16-chatterbox-server
+> mocha server/spec
+
+
+
+  server
+    ✓ should respond to GET requests for /classes/messages with a 200 status code
+    ✓ should send back parsable stringified JSON
+    ✓ should send back an object
+    ✓ should send an object containing a `results` array
+    ✓ should accept POST requests to /classes/messages
+    ✓ should respond with messages that were previously posted
+    ✓ Should 404 when asked for a nonexistent endpoint
+
+  Node Server Request Listener Function
+Serving request type GET for url /classes/messages
+    ✓ Should answer GET requests for /classes/messages with a 200 status code
+Serving request type GET for url /classes/messages
+    ✓ Should send back parsable stringified JSON
+Serving request type GET for url /classes/messages
+    ✓ Should send back an object
+Serving request type GET for url /classes/messages
+    ✓ Should send an object containing a `results` array
+Serving request type POST for url /classes/messages
+    ✓ Should accept posts to /classes/messages
+Serving request type POST for url /classes/messages
+Serving request type GET for url /classes/messages
+    ✓ Should respond with messages that were previously posted
+Serving request type GET for url /arglebargle
+    ✓ Should 404 when asked for a nonexistent file
+
+
+  14 passing (66ms)
+
